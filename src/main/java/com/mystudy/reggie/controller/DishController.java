@@ -1,6 +1,7 @@
 package com.mystudy.reggie.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mystudy.reggie.common.R;
 import com.mystudy.reggie.dto.DishDto;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -110,6 +112,17 @@ public class DishController {
         lambdaQueryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
         List<Dish> list = dishService.list(lambdaQueryWrapper);
         return R.success(list);
+    }
+
+    @PostMapping("/status/{status}")
+    public R<String> status(@PathVariable int status,Long[] ids){
+        List<Long> list = Arrays.asList(ids);
+        LambdaUpdateWrapper<Dish> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.set(Dish::getStatus,status).in(Dish::getId,list);
+        dishService.update(lambdaUpdateWrapper);
+
+        return R.success("更改成功");
+
     }
 
 }

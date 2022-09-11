@@ -5,5 +5,5 @@ import com.mystudy.reggie.entity.Setmeal;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface SetMealMapper extends BaseMapper<Setmeal> {
+public interface SetmealMapper extends BaseMapper<Setmeal> {
 }
