@@ -5,4 +5,5 @@ import com.mystudy.reggie.entity.Orders;
 import org.springframework.core.annotation.Order;
 
 public interface OrdersService extends IService<Orders> {
+    public void submit(Orders orders);
 }

@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 2001
 spring:
   application:
       #应用名称，可写可不写
