@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -104,21 +105,31 @@ public class DishController {
      * @return
      */
     @GetMapping("/list")
-    public R<List<Dish>> list(Long categoryId) {
+    public R<List<DishDto>> list(Long categoryId) {
         LambdaQueryWrapper<Dish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(categoryId != null, Dish::getCategoryId, categoryId);
         //1代表起售
-        lambdaQueryWrapper.eq(Dish::getStatus,1);
+        lambdaQueryWrapper.eq(Dish::getStatus, 1);
         lambdaQueryWrapper.orderByAsc(Dish::getSort).orderByDesc(Dish::getUpdateTime);
         List<Dish> list = dishService.list(lambdaQueryWrapper);
-        return R.success(list);
+        List<DishDto> dishDtoList = list.stream().map((item) -> {
+            DishDto dishDto = new DishDto();
+            BeanUtils.copyProperties(item, dishDto);
+            LambdaQueryWrapper<DishFlavor> lambdaQueryWrapper1 = new LambdaQueryWrapper<>();
+            lambdaQueryWrapper1.eq(DishFlavor::getDishId,item.getId());
+            List<DishFlavor> flavors = dishFlavorService.list(lambdaQueryWrapper1);
+            dishDto.setFlavors(flavors);
+            return dishDto;
+        }).collect(Collectors.toList());
+
+        return R.success(dishDtoList);
     }
 
     @PostMapping("/status/{status}")
-    public R<String> status(@PathVariable int status,Long[] ids){
+    public R<String> status(@PathVariable int status, Long[] ids) {
         List<Long> list = Arrays.asList(ids);
         LambdaUpdateWrapper<Dish> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        lambdaUpdateWrapper.set(Dish::getStatus,status).in(Dish::getId,list);
+        lambdaUpdateWrapper.set(Dish::getStatus, status).in(Dish::getId, list);
         dishService.update(lambdaUpdateWrapper);
 
         return R.success("更改成功");
