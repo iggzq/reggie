@@ -44,7 +44,7 @@ public class LoginCheckFilter implements Filter {
         }
 
         response.getWriter().write(JSON.toJSONString(R.error("NOTLOGIN")));
-
+        return;
     }
 
     public boolean check(String[] urls, String requestURI) {
