@@ -8,6 +8,7 @@ import com.mystudy.reggie.common.R;
 import com.mystudy.reggie.dto.SetmealDto;
 import com.mystudy.reggie.entity.Category;
 import com.mystudy.reggie.entity.Setmeal;
+import com.mystudy.reggie.entity.SetmealDish;
 import com.mystudy.reggie.service.CategoryService;
 import com.mystudy.reggie.service.SetmealService;
 import com.mystudy.reggie.service.SetmealDishService;
@@ -41,7 +42,7 @@ public class SetmealController {
      * @return
      */
     @PostMapping
-    public R<String> save(SetmealDto setmealDto) {
+    public R<String> save(@RequestBody SetmealDto setmealDto) {
         setmealService.saveWithDish(setmealDto);
         return R.success("新增套餐成功");
     }
@@ -114,5 +115,19 @@ public class SetmealController {
         List<Setmeal> list = setmealService.list(lambdaQueryWrapper);
 
         return R.success(list);
+    }
+
+    @GetMapping("/{id}")
+    public R<SetmealDto> get(@PathVariable Long id){
+        LambdaQueryWrapper<SetmealDish> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SetmealDish::getSetmealId,id);
+        Setmeal one = setmealService.getById(id);
+        SetmealDto setmealDto = new SetmealDto();
+        BeanUtils.copyProperties(one,setmealDto);
+        List<SetmealDish> list = setmealDishService.list(lambdaQueryWrapper);
+        setmealDto.setSetmealDishes(list);
+
+
+        return R.success(setmealDto);
     }
 }

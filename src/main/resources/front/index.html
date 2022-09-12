@@ -479,7 +479,7 @@
                 if(res.code === 1){
                 this.dishList.forEach(dish=>{
                   if(dish.id === (item.dishId || item.setmealId)){
-                    dish.number = (res.data.number === 0 ? undefined : res.data.number)
+                    dish.number = res.data.number
                   }
                 })
                 this.getCartData()

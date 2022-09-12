@@ -3,6 +3,7 @@ package com.mystudy.reggie.controller;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.mystudy.reggie.common.BaseContext;
 import com.mystudy.reggie.common.R;
+import com.mystudy.reggie.dto.SubDto;
 import com.mystudy.reggie.entity.ShoppingCart;
 import com.mystudy.reggie.service.ShoppingCartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,18 +78,16 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/sub")
-    public R<ShoppingCart> sub(@PathVariable Map map) {
+    public R<ShoppingCart> sub(@RequestBody SubDto subDto) {
         Long currentId = BaseContext.getCurrentId();
-        Long dishId = (Long) map.get("dishid");
-        Long setmealId = (Long) map.get("setmealId");
         LambdaQueryWrapper<ShoppingCart> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.eq(ShoppingCart::getUserId, currentId);
-        if (dishId != null) {
+        if (subDto.getDishId() != null) {
             //是菜品
-            lambdaQueryWrapper.eq(ShoppingCart::getDishId, dishId);
+            lambdaQueryWrapper.eq(ShoppingCart::getDishId, subDto.getDishId());
         } else {
             //是套餐
-            lambdaQueryWrapper.eq(ShoppingCart::getSetmealId, setmealId);
+            lambdaQueryWrapper.eq(ShoppingCart::getSetmealId, subDto.getSetmealId());
         }
         ShoppingCart one = shoppingCartService.getOne(lambdaQueryWrapper);
         if (one != null && one.getNumber() != 1) {
@@ -96,6 +95,10 @@ public class ShoppingCartController {
             one.setNumber(number - 1);
             shoppingCartService.updateById(one);
         }
-        return R.success(one);
+
+        if (one != null && one.getNumber() == 1){
+            shoppingCartService.remove(lambdaQueryWrapper);
+        }
+            return R.success(one);
     }
 }

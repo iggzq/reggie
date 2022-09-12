@@ -115,10 +115,13 @@
                         if(records && Array.isArray(records)){
                             records.forEach(item=>{
                                 let number = 0
+                                let money = 0
                                 item.orderDetails.forEach(ele=>{
                                     number += ele.number
+                                    money += (ele.amount * number)
                                 })
                                 item.sumNum = number
+                                item.amount = money
                             })
                         }
                         this.loading = false;

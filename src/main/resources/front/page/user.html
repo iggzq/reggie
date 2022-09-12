@@ -24,7 +24,7 @@
             <div class="divUser">
                 <img src="./../images/headPage.png"/>
                 <div class="desc">
-                    <div class="divName">林之迷 <img src="./../images/women.png"/></div>
+                    <div class="divName"> <img src="./../images/women.png"/></div>
                     <div class="divPhone">{{userPhone}}</div>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                             name:'',//菜品名称
                             number:undefined,//数量
                         }],//明细
-                        amount:undefined,//实收金额
+                        amount:'',//实收金额
                         sumNum:0,//菜品总数
                     }],
                 }
@@ -137,10 +137,14 @@
                         this.order = res.data.records
                         if(this.order && this.order[0].orderDetails){
                             let number = 0
+                            let money = 0
                             this.order[0].orderDetails.forEach(item=>{
                                 number += item.number
+                                money += (item.amount * number)
+
                             })
                             this.order[0].sumNum = number
+                            this.order[0].amount = money
                         }
                     }else{
                         this.$notify({ type:'warning', message:res.msg});
