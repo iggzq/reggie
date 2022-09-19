@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户界面</title>
+</head>
+
+<body>
+<div id="myWeb">
+    <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="名称">
+            <el-input v-model="form.name"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱">
+            <el-input v-model="form.email"></el-input>
+        </el-form-item>
+
+        <el-form-item>
+            <el-button type="primary" @click="onSubmit">提交</el-button>
+            <el-button>取消</el-button>
+        </el-form-item>
+    </el-form>
+</div>
+<!-- 开发环境版本，包含了有帮助的命令行警告 -->
+<script src="../../backend/plugins/vue/vue.js"></script>
+<!-- 引入组件库 -->
+<script src="../../backend/plugins/element-ui/index.js"></script>
+<!-- 引入vant组件 -->
+<script src="./../js/vant.min.js"></script>
+<!--不同屏幕尺寸根字体设置-->
+<script src="./../js/base.js"></script>
+<!-- 引入axios -->
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script src="./../js/user.js"></script>
+
+
+<script>
+    new Vue({
+        el: '#myWeb',
+            data() {
+                return {
+                    form: {
+                        name: '',
+                        email: ''
+                    }
+                }
+            },
+            methods: {
+                onSubmit() {
+                    const resp =  changeUserInfor(this.form)
+                    // $axios({
+                    //     'url': '/user',
+                    //     'method': 'put',
+                    //     form
+                    // })
+                }
+            }
+    })
+
+</script>
+
+</body>
+</html>

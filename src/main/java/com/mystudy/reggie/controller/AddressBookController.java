@@ -8,10 +8,12 @@ import com.mystudy.reggie.common.R;
 import com.mystudy.reggie.entity.AddressBook;
 import com.mystudy.reggie.service.AddressBookService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -71,6 +73,7 @@ public class AddressBookController {
         LambdaQueryWrapper<AddressBook> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(AddressBook::getUserId, BaseContext.getCurrentId());
         queryWrapper.eq(AddressBook::getIsDefault, 1);
+        queryWrapper.eq(AddressBook::getIsDeleted,0);
 
         //SQL:select * from address_book where user_id = ? and is_default = 1
         AddressBook addressBook = addressBookService.getOne(queryWrapper);
@@ -93,8 +96,37 @@ public class AddressBookController {
         //条件构造器
         LambdaQueryWrapper<AddressBook> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(null != addressBook.getUserId(), AddressBook::getUserId, addressBook.getUserId());
+        queryWrapper.eq(AddressBook::getIsDeleted,0);
         queryWrapper.orderByDesc(AddressBook::getUpdateTime);
 
         return R.success(addressBookService.list(queryWrapper));
+    }
+
+
+    @PutMapping
+    public  R<String> put(@RequestBody AddressBook addressBook){
+//        AddressBook addressById = addressBookService.getById(addressBook.getId());
+//        BeanUtils.copyProperties(addressBook,addressById);
+        LambdaUpdateWrapper<AddressBook> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(AddressBook::getId,addressBook.getId());
+
+
+        addressBookService.update(addressBook,lambdaUpdateWrapper);
+
+        return R.success("修改成功");
+    }
+
+    @DeleteMapping
+    public R<String> delete(BigInteger ids){
+        LambdaUpdateWrapper<AddressBook> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(AddressBook::getId,ids);
+        AddressBook addressBook = addressBookService.getById(ids);
+        addressBook.setIsDeleted(1);
+        addressBookService.update(addressBook,lambdaUpdateWrapper);
+
+
+        return R.success("删除成功");
+
+
     }
 }
