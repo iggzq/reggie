@@ -63,8 +63,7 @@
                     if (regex.test(this.form.phone)) {
                         this.msgFlag = false
                         //this.form.code = (Math.random()*1000000).toFixed(0)
-                        var resp = sendMsgApi({phone:this.form.phone});
-                        if(resp.code == 1) {
+                        if(sendMsgApi({phone:this.form.phone})) {
                             this.$message({
                                 message: '发送成功',
                                 type: 'success'
@@ -79,7 +78,7 @@
                 async btnLogin(){
                     if(this.form.phone && this.form.code){
                         this.loading = true
-                        const res = await loginApi(this.form)
+                        var res = await loginApi(this.form)
                         this.loading = false
                         if(res.code === 1){
                             sessionStorage.setItem("userPhone",this.form.phone)

@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 2001
 spring:
   application:
       #应用名称，可写可不写
@@ -13,9 +13,12 @@ spring:
       password: 86530890a_
   redis:
     host: 43.142.101.212
-    port: 2002
-    password: 86530890a
+    port: 6379
     database: 0
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+#    database: 0
 
   #mybatisPlus配置
 mybatis-plus:
@@ -23,13 +26,17 @@ mybatis-plus:
     #在映射实体或者属性时，将数据库中表名和字段名中的下划线去掉，按照驼峰命名法映射
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    default-statement-timeout: 10000000
+    default-statement-timeout: 1000
     #主键生成策略
   global-config:
     db-config:
       id-type: ASSIGN_ID
 reggie:
-  path: D:\img\
+  path: /myWeb/img/
+#   path: D:/img/
+tencentcloud:
+  secretId: AKID78MRUddUCmleMm27zgBezCIM7kGdsFTW
+  secretKey: 0573tZAbpvCNUahq2d4LSONH7V6xoT0U
 
 
 
