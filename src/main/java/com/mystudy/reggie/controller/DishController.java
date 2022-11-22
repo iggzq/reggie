@@ -152,13 +152,14 @@ public class DishController {
 
 
     @DeleteMapping
-    public R<String> delete(String ids) {
-        Dish dish = dishService.getById(ids);
-        dish.setIsDeleted(1);
-        LambdaUpdateWrapper<Dish> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
-        lambdaUpdateWrapper.eq(Dish::getId, ids);
-        dishService.update(dish, lambdaUpdateWrapper);
-
+    public R<String> delete(Long[] ids) {
+        for(int i = 0; i < ids.length; i++){
+            Dish dish = dishService.getById(ids[i]);
+            dish.setIsDeleted(1);
+            LambdaUpdateWrapper<Dish> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+            lambdaUpdateWrapper.eq(Dish::getId, ids[i]);
+            dishService.update(dish, lambdaUpdateWrapper);
+        }
         return R.success("删除成功");
     }
 

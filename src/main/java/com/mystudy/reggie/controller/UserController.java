@@ -74,4 +74,14 @@ public class UserController {
         }
         return R.error("登陆失败");
     }
+
+    @PostMapping("/logout")
+    public R<String> logout(HttpSession httpSession){
+        try {
+            httpSession.removeAttribute("user");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return R.success("退出登录成功");
+    }
 }

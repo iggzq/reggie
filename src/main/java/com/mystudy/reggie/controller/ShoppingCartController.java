@@ -98,6 +98,7 @@ public class ShoppingCartController {
 
         if (one != null && one.getNumber() == 1){
             shoppingCartService.remove(lambdaQueryWrapper);
+
         }
             return R.success(one);
     }

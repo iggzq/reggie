@@ -1,6 +1,7 @@
 package com.mystudy.reggie.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.mystudy.reggie.common.BaseContext;
 import com.mystudy.reggie.common.R;
@@ -83,5 +84,14 @@ public class OrderController {
 //        }
         page2.setRecords(ordersDtos);
         return R.success(page2);
+    }
+
+    @PutMapping
+    public R<String> order(@RequestBody Orders order){
+        LambdaUpdateWrapper<Orders> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper.eq(Orders::getId,order.getId());
+        lambdaUpdateWrapper.set(Orders::getStatus,order.getStatus());
+        ordersService.update(lambdaUpdateWrapper);
+        return R.success("状态更改成功");
     }
 }

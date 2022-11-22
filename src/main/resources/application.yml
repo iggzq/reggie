@@ -32,8 +32,8 @@ mybatis-plus:
     db-config:
       id-type: ASSIGN_ID
 reggie:
-  path: /myWeb/img/
-#   path: D:/img/
+#  path: /myWeb/img/
+   path: D:/img/
 tencentcloud:
   secretId: AKID78MRUddUCmleMm27zgBezCIM7kGdsFTW
   secretKey: 0573tZAbpvCNUahq2d4LSONH7V6xoT0U
