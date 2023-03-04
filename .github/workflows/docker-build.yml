@@ -28,13 +28,13 @@ jobs:
           push: true
           tags: lituizi/reggie:latest
       - name: Deploy
-          uses: appleboy/ssh-action@master
-          with:
-            host: ${{ secrets.HOST }}
-            username: ${{ secrets.USERNAME }}
-            password: ${{ secrets.PASSWORD }}
-            script: |
-              docker stop reggie || true
-              docker rm reggie || true
-              docker pull lituizi/reggie:latest
-              docker run -d --name reggie -p 2002:2001 lituizi/reggie:latest
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            docker stop reggie || true
+            docker rm reggie || true
+            docker pull lituizi/reggie:latest
+            docker run -d --name reggie -p 2002:2001 lituizi/reggie:latest
