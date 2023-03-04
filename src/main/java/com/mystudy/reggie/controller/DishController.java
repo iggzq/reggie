@@ -13,11 +13,10 @@ import com.mystudy.reggie.service.DishFlavorService;
 import com.mystudy.reggie.service.DishService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -27,16 +26,16 @@ import java.util.stream.Collectors;
 @RequestMapping("/dish")
 public class DishController {
 
-    @Autowired
+    @Resource
     private DishFlavorService dishFlavorService;
-    @Autowired
+    @Resource
     private DishService dishService;
 
-    @Autowired
+    @Resource
     private CategoryService categoryService;
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    @Resource
+    private RedisTemplate<String,Object> redisTemplate;
 
     /**
      * 新增菜品
@@ -113,7 +112,7 @@ public class DishController {
      */
     @GetMapping("/list")
     public R<List<DishDto>> list(Long categoryId) {
-        List<DishDto> dishDtoList = null;
+        List<DishDto> dishDtoList;
         String key = "dish_" + categoryId;
 
         dishDtoList = (List<DishDto>) redisTemplate.opsForValue().get(key);

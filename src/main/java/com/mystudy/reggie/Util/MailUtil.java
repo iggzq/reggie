@@ -35,8 +35,10 @@ public class MailUtil {
             Transport ts = session.getTransport();
             // 连接邮件服务器：邮箱类型，帐号，POP3/SMTP协议授权码
             ts.connect("smtp.qq.com", "2811328244@qq.com", "rgkezajbcjomdefg");
+            //cmdrZXphamJjam9tZGVmZw==
             // 创建邮件
             Message message = createSimpleMail(session, receiveMail,code);
+            message.setSubject("工大外卖验证码(测试)");
             // 发送邮件
             ts.sendMessage(message, message.getAllRecipients());
             ts.close();

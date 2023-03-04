@@ -1,7 +1,7 @@
 package com.mystudy.reggie;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -14,6 +14,7 @@ import com.tencentcloudapi.common.exception.TencentCloudSDKException;
 import com.tencentcloudapi.tms.v20201229.TmsClient;
 import com.tencentcloudapi.tms.v20201229.models.TextModerationRequest;
 import com.tencentcloudapi.tms.v20201229.models.TextModerationResponse;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.junit.jupiter.api.Test;
@@ -72,12 +73,15 @@ class ReggieApplicationTests {
 
 
     }
+
     @Test
     public void testString() {
         String a = "abc";
         String b = "def";
-        String c = a + b;
-        System.out.println(c);
+        a.concat(b);
+        System.out.println(a);
     }
+
+
 }
 //UPDATE tb_name SET column_name='test' WHERE id in (SELECT id FROM (SELECT * FROM tb_name ORDER BY id ASC LIMIT 20,10) AS tt);
