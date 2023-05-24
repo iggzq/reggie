@@ -8,11 +8,11 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://43.142.101.212:3306/reggie
+      url: jdbc:mysql://8.130.78.164:3306/reggie
       username: root
       password: 86530890a_
   redis:
-    host: 43.142.101.212
+    host: 8.130.78.164
     port: 6379
     database: 0
 #  redis:
